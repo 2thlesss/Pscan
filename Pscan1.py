@@ -1,20 +1,22 @@
 #!/usr/bin/python
 
 import socket
+from termcolor import colored
 
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-socket.setdefaulttimeout(2)
+socket.setdefaulttimeout(1)
 
 host = input("[*] Enter the host to scan: ")
 
-port = int(input("[*] Enter the port to scan:"))
+#port = int(input("[*] Enter the port to scan:"))
 
 def portscanner(port):
 	if sock.connect_ex((host,port)):
-		print ("Port %d is closed" % (port))
+		print (colored("[!!] Port %d is closed" % (port), 'red'))
 	else:
-		print ( "Port %d is open" % (port))
+		print (colored( "[+] Port %d is open" % (port), 'green'))
 
-portscanner(port)
+for port in range (1,1000):
+	portscanner(port)
 
