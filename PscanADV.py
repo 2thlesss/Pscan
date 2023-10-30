@@ -7,6 +7,23 @@ import optparse
 # import everything
 from threading import *
 
+#portscanner function
+def portScan(targetHost, targetPort):
+	#resolve domain name to IP address
+	try:
+		targetIP = gethostbyname(targetHost)
+	except:
+		print ('Cant Resolve Target Host %s ' %targetHost)
+	try:
+		targetName = gethostbyaddr(targetIP)
+		print ('[+] Scan Results For: ' + targetName[0])
+	except:
+		print ('[+] Scan Results for: '+ targetIP) 
+	setdefaulttimeout(1)
+	for targetPort in targetPort:
+		t = Thread(target=connectionScan, args = (targetHost,int(targetPort)))
+		t.start()
+
 #main function
 def main():
 	#call options for user
@@ -20,7 +37,8 @@ def main():
 	if (targetHost == None) | (targetPort[0] == None):
 		print (parser.usage)
 		exit (0)
-	#portScan(targetHost, targetPort)
+	portScan(targetHost, targetPort)
 
+if __name__ = '__main__' :
 
-main()
+	main()
