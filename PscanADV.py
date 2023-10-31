@@ -8,32 +8,33 @@ import optparse
 from threading import *
 
 #connection scanner
-def connectionScan(targetHost, targetPort):
+def connectionScan(targetHost, targetPorts):
         try:
                 sock = socket(AF_INET, SOCK_STREAM)
-                sock.connect((targetHost, targetPort))
-                print('[+] {}:{} Open'.format(targetHost, targetPort))
+                sock.connect((targetHost, targetPorts))
+                print('[+] {}:{} Open'.format(targetHost, targetPorts))
         except:
-                print('[-] {}:{} Closed'.format(targetHost, targetPort))
+                print('[-] {}:{} Closed'.format(targetHost, targetPorts))
         finally:
                 sock.close()
 
 #portscanner function
 def portScan(targetHost, targetPorts):
-        #resolve domain name to IP address
-        try:
-                targetIP = gethostbyname(targetHost)
-        except:
-                print('Cant Resolve Target Host {}'.format(targetHost))
-        try:
-                targetName = gethostbyaddr(targetIP)
-                print('[+] Scan Results For: ' + targetName[0])
-        except:
-                print('[+] Scan Results for: '+ targetIP) 
-        setdefaulttimeout(1)
-        for targetPort in targetPorts:
-                t = Thread(target=connectionScan, args=(targetHost, int(targetPort)))
-                t.start()
+	#resolve domain name to IP address
+	try:
+		targetIP = gethostbyname(targetHost)
+	except:
+		print('Cant Resolve Target Host {}'.format(targetHost))
+	try:
+		targetName = gethostbyaddr(targetIP)
+		print('[+] Scan Results For: ' + targetName[0])
+	except:
+		print('[+] Scan Results for: '+ targetIP) 
+		setdefaulttimeout(1)
+	for targetPort in targetPorts:
+		if targetPort.strip():
+			t = Thread(target=connectionScan, args=(targetHost, int(targetPort)))
+			t.start()
 
 #main function
 def main():
