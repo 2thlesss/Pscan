@@ -12,9 +12,9 @@ def connectionScan(targetHost, targetPorts):
         try:
                 sock = socket(AF_INET, SOCK_STREAM)
                 sock.connect((targetHost, targetPorts))
-                print('[+] {}:{} Open'.format(targetHost, targetPorts))
+                print('[+] {} TCP Open'.format(targetPorts))
         except:
-                print('[-] {}:{} Closed'.format(targetHost, targetPorts))
+                print('[-] {} Closed'.format(targetPorts))
         finally:
                 sock.close()
 
